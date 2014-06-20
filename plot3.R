@@ -27,8 +27,9 @@ library(ggplot2)
 
 p <- ggplot(data=totalLong,aes(x=year, y=Emissions, fill=year)) +
   geom_bar(stat="identity", position="dodge") + facet_grid(. ~ type) +
+  theme(panel.grid.major.x = element_blank()) +
+  theme(panel.grid.minor.x = element_blank()) +
   scale_x_continuous(breaks=c(1999,2002,2005, 2008),labels=unique(totalLong$year))
-  theme(panel.grid.major.x = element_blank())
 p
 
 dev.print(device=png, width=480, height=480, file="plot3.png")
