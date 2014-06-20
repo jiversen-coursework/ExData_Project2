@@ -13,12 +13,13 @@ NEI<-readRDS('NEI_data/summarySCC_PM25.rds')
 SCC<-readRDS('NEI_data/Source_Classification_Code.rds')
 
 # boxplot--not useful cause of some enormous outliers
-boxplot(Emissions~year, data=NEI, notch=TRUE)
+#boxplot(Emissions~year, data=NEI, notch=TRUE)
 
 #find total grouped by year
-years <- as.factor(unique(NEI$year))
 yearlyTotalEmissions <- tapply(NEI$Emissions, NEI$year, sum)
 
+#make a bar plot
+
 png(file="plot1.png",width=480,height=480)
-barplot(yearlyTotalEmissions,names.arg=years, xlab="Year", ylab="Total Emissions [PM2.5]",main="Total Emissions Decreased from 1999 to 2008")
+barplot(yearlyTotalEmissions, xlab="Year", ylab="Total Emissions [PM2.5]",main="Total Emissions Decreased from 1999 to 2008")
 dev.off()
