@@ -25,16 +25,20 @@ baltimoreNEI <- NEI[idx,]
 #tabulate total emissions by year and type
 totalByYearByType <- tapply(baltimoreNEI$Emissions, list(baltimoreNEI$type,baltimoreNEI$year),sum)
 #reshape into long format for ggplot
-totalLong <-melt(totalByYearByType,value.name="Emissions")
-colnames(totalLong)[1:2]=c("type","year")
+totalByYearByType <-melt(totalByYearByType,value.name="Emissions")
+colnames(totalByYearByType)[1:2]=c("type","year")
+
+# BETTER: ddply
+totalByYearByType<-ddply(baltimoreNEI,.(type,year),summarize,Emissions=sum(Emissions))
 
 #plot
 #basic--cleaner looking than ggplot; much simpler, too
 #barplot(t(totalByYearByType),beside=T,legend.text=T)
 
 #ggplot2
-p <- ggplot(data=totalLong,aes(x=as.factor(year), y=Emissions, fill=year)) +
-  geom_bar(stat="identity", position="dodge") + facet_grid(. ~ type) +
+p <- ggplot(data=totalByYearByType,aes(x=as.factor(year), y=Emissions, fill=year)) +
+  geom_bar(stat="identity", position="dodge") +
+  facet_grid(. ~ type) +
   theme(panel.grid.major.x = element_blank()) +
   theme(panel.grid.minor.x = element_blank()) +
   theme(legend.position="none") +
@@ -46,8 +50,9 @@ dev.print(device=png, width=480, height=480, file="plot3.png")
 # -- optional --
 # Just learning to flex my ggplot--here is a simpler equivalent approache....
 # uses raw data, so don't need to tabulate and melt first
-qplot(as.factor(year),data=baltimoreNEI,geom="bar",weight=Emissions,fill=year) + facet_grid(. ~ type) +
+qplot(as.factor(year),data=baltimoreNEI,geom="bar",weight=Emissions,fill=year) +
+  facet_grid(. ~ type) +
   theme(panel.grid.major.x = element_blank()) +
   theme(panel.grid.minor.x = element_blank()) +
   theme(legend.position="none") +
-  labs(title="Change in Baltimore Emissions by Source Type", x="Year", y="Total Emissions [PM2.5]")
+  labs(title="Change in Baltimore Emissions by Source Type", x="Year", y="Total Emissions [PM2.5]")a
