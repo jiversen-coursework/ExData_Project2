@@ -28,7 +28,7 @@ totalByYearByType <- tapply(baltimoreNEI$Emissions, list(baltimoreNEI$type,balti
 totalByYearByType <-melt(totalByYearByType,value.name="Emissions")
 colnames(totalByYearByType)[1:2]=c("type","year")
 
-# BETTER: ddply
+# BETTER: ddply--learned from forum post
 totalByYearByType<-ddply(baltimoreNEI,.(type,year),summarize,Emissions=sum(Emissions))
 
 #plot
