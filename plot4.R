@@ -14,6 +14,7 @@ NEI<-readRDS('NEI_data/summarySCC_PM25.rds')
 SCC<-readRDS('NEI_data/Source_Classification_Code.rds')
 
 #find entries on SCC that use coal
+# ASSUMPTION: I define coal related as those with the final word of EI.Sector is "Coal"
 # list of last words of EI.Sector
 tmp<-llply(as.character(SCC$EI.Sector),function(x){a<-strsplit(x," - ")[[1]]; a[length(a)]})
 isCoal <- (tmp=="Coal")

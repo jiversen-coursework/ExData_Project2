@@ -7,7 +7,7 @@
 #from 1999–2008 for Baltimore City? Which have seen increases in emissions from
 #1999–2008? Use the ggplot2 plotting system to make a plot answer this question.
 
-#Answer: All but point sources have shown decreases from 1999 to 2008
+#Answer: All but point sources decrease from 1999 to 2008
 # point sources increased from 1999 to 2005 (why?) but returned to slightly
 # higher than 1999 levels by 2008
 

@@ -14,9 +14,8 @@ SCC<-readRDS('NEI_data/Source_Classification_Code.rds')
 #get sources in Baltimore
 baltimoreNEI = NEI[NEI$fips=="24510",]
 
-#ASSUMPTION: motor vehicles is union of onroad and non-road types
-vehicleTypes = c("NON-ROAD","ON-ROAD")
-vehicleNEI = baltimoreNEI[baltimoreNEI$type %in% vehicleTypes,]
+#ASSUMPTION: motor vehicles defined as ON-ROAD measurement type
+vehicleNEI = baltimoreNEI[baltimoreNEI$type == "ON-ROAD",]
 
 #tabulate
 yearlyTotalEmissions <- tapply(vehicleNEI$Emissions, vehicleNEI$year, sum)
@@ -27,6 +26,6 @@ barplot(yearlyTotalEmissions, xlab="Year", ylab="Total Emissions [PM2.5]",main="
 dev.off()
 
 # -- optional --
-#ggplot2 version: slower, and I find it less attractive
+#ggplot2 version: slower, and I find it less attractive, but it avoids the tabulation step
 #library(ggplot2)
 #qplot(as.factor(year),data=vehicleNEI,geom="bar",weight=Emissions)
